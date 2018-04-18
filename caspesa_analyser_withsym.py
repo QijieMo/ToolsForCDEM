@@ -79,13 +79,16 @@ for i in xrange(len(energy_sorted)):
 		work_path_processed += work_path_raw[j]+"/"
 	#now i can change working directory and execute the xyz2cif
 	os.chdir(work_path_processed)
-	sym_res = cmdline("xyz2cif.py "+xyz_file_name+".xyz cell_file "+sym_tol+" "
-		+xyz_file_name+".cif").rstrip("\n")
-	while sym_res[:5] != "Space":
-		dummy_tol = float(dummy_tol) - 0.1
-		sym_res = cmdline("xyz2cif.py "+xyz_file_name+".xyz cell_file "+str(dummy_tol)+" "
+	if(float(energy_sorted[i][1])!=0.):
+		sym_res = cmdline("xyz2cif.py "+xyz_file_name+".xyz cell_file "+sym_tol+" "
 			+xyz_file_name+".cif").rstrip("\n")
-	table.add_row([energy_sorted[i][0],energy_sorted[i][1],str(dummy_tol),sym_res])
+		while sym_res[:5] != "Space":
+			dummy_tol = float(dummy_tol) - 0.1
+			sym_res = cmdline("xyz2cif.py "+xyz_file_name+".xyz cell_file "+str(dummy_tol)+" "
+				+xyz_file_name+".cif").rstrip("\n")
+	else:
+		sym_res = "E=0,wont look for energy"
+	table.add_row([energy_sorted[i][0],energy_sorted[i][1],str(dummy_tol),sym_res.rstrip(" ")])
 	os.chdir(base_directory)
 	
 print(table)
