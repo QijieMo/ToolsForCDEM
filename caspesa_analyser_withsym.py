@@ -87,7 +87,7 @@ for i in xrange(len(energy_sorted)):
 			sym_res = cmdline("xyz2cif.py "+xyz_file_name+".xyz cell_file "+str(dummy_tol)+" "
 				+xyz_file_name+".cif").rstrip("\n")
 	else:
-		sym_res = "E=0,wont look for energy"
+		sym_res = "E=0,wont look for sym"
 	table.add_row([energy_sorted[i][0],energy_sorted[i][1],str(dummy_tol),sym_res.rstrip(" ")])
 	os.chdir(base_directory)
 	
