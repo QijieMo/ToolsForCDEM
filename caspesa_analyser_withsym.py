@@ -48,8 +48,10 @@ for i in xrange(len(xyz_adress)):
 	os.system("mkdir -p "+xyzfolder_path)
 	#Copying the files
 	copy_command = "cp -r "+xyz_adress[i]+" "+Analysis_folder_paths[i]
+	copy_command_333 = "cp -r "+xyz_adress[i].rstrip('.xyz')+"_333.xyz"+" "+Analysis_folder_paths[i]
 	Analysis_xyz_paths.append(Analysis_folder_paths[i]+"/"+xyz_adress[i].split("/")[-1])
 	os.system(copy_command)
+	os.system(copy_command_333)
 	#Generating the cell_file for xyz2cif
 	generate_cellfile(xyzfolder_path,name_without_xyz)
 	#Getting energy
@@ -95,3 +97,6 @@ print(table)
 Analysis_file = open(Analysis_dir+".txt","w")
 Analysis_file.write(str(table)+"\n")
 Analysis_file.close()
+for i in xrange(len(energy_sorted)):
+	os.system("cat "+energy_sorted[i][0]+" >> "+Analysis_dir+"/all.xyz")
+	os.system("cat "+energy_sorted[i][0].rstrip('.xyz')+"_333.xyz"+" >> "+Analysis_dir+"/all_333.xyz")
