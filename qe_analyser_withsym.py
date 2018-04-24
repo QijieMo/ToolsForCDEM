@@ -202,7 +202,7 @@ for i in xrange(len(address_vs_version)):
 			sym_command = "xyz2cif.py "+xyzname+" cell_file "+str(dummy_tol)+" "+cifname
 			sym_res = cmdline(sym_command).rstrip("\n")
 		address_vs_symtol[address] = dummy_tol
-		address_vs_sym[address] = sym_res
+		address_vs_sym[address] = sym_res.rstrip(" ")
 	if is_finished[address] != "Finished" and has_error[address] == "No":
 		address_vs_symtol[address] = "NF"
 		address_vs_sym[address] = "Not Finished(NF)"
