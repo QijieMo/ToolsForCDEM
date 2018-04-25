@@ -195,6 +195,9 @@ for i in xrange(len(address_vs_version)):
 		cifname = address_vs_name[address]+"_final.cif "
 		coord_cell_command = "qe_getfinalcoordcell.py "+out_name+" "+xyzname+str(how_many_atom[address])
 		os.system(coord_cell_command)
+		removeHcommand = "removeHfromxyz.py "+xyzname
+		os.system(removeHcommand)
+		xyzname = xyzname.rstrip(".xyz ")+"_withoutH.xyz"
 		sym_command = "xyz2cif.py "+xyzname+" cell_file "+str(dummy_tol)+" "+cifname
 		sym_res = cmdline(sym_command).rstrip("\n")
 		while sym_res[:5] != "Space":

@@ -3,7 +3,7 @@ import sys
 import os
 
 if(len(sys.argv)!=3):
-	print "HATA!!!\nDogru kullanim > xyz-espressomaker.py xyz_dosyasi atom veya mars"
+	print "HATA!!!\nDogru kullanim > xyz-espressomaker.py xyz_dosyasi atom veya mars veya uhem"
 	exit(0)
 
 def atom_list(filename):
@@ -236,6 +236,8 @@ if(sys.argv[2]=="mars"):
 	pseudo_dir="'/ORTAK/progs/QuantumESPRESSO/pseudo',\n"
 if(sys.argv[2]=="atom"):
 	pseudo_dir="'/opt/pseudo_test/SSSP_acc_PBE',\n"
+if(sys.argv[2]=="uhem"):
+	pseudo_dir="'/okyanus/users/eaybey/pseudo_test/SSSP_acc_PBE',\n"
 foldername = filename.split(".")[0]+"_esp"
 os.system("mkdir -p "+foldername)
 os.system("cp "+filename+" "+foldername)
