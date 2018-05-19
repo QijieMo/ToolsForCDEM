@@ -2,8 +2,8 @@
 import sys
 import os
 
-if(len(sys.argv)!=4):
-	print "HATA!!!\nDogru kullanim > xyz-espressomaker.py xyz_dosyasi cell_file atom veya mars veya uhem"
+if(len(sys.argv)!=3):
+	print "HATA!!!\nDogru kullanim > xyz-espressomaker.py xyz_dosyasi atom veya mars veya uhem"
 	exit(0)
 
 def atom_list(filename):
@@ -218,31 +218,25 @@ def weights(at_name):
     if at_name=="Mt": return 268.000 
 
 filename = sys.argv[1]
-cell_filename = sys.argv[2]
 file = open(filename,"r")
-cell_file = open(cell_filename,"r")
-#First two lines are irrelevant now
-file.readline()
-file.readline()
-cell_processed = cell_file.readlines()
-cell_first = cell_processed[0].split()
-cell_second = cell_processed[1].split()
-cell_third = cell_processed[2].split()
-cell1 = float(cell_first[0])
-cell2 = float(cell_first[1])
-cell3 = float(cell_first[2])
-cell4 = float(cell_second[0])
-cell5 = float(cell_second[1])
-cell6 = float(cell_second[2])
-cell7 = float(cell_third[0])
-cell8 = float(cell_third[1])
-cell9 = float(cell_third[2])
+cell_raw = file.readline()
+cell_raw = file.readline()
+cell_processed = cell_raw.split()[7:]
+cell1 = cell_processed[0][2:-1]
+cell2 = cell_processed[1][:-1]
+cell3 = cell_processed[2].split("[")[0][:-1]
+cell4 = cell_processed[2].split("[")[1][:-1]
+cell5 = cell_processed[3][:-1]
+cell6 = cell_processed[4].split("[")[0][:-1]
+cell7 = cell_processed[4].split("[")[1][:-1]
+cell8 = cell_processed[5][:-1]
+cell9 = cell_processed[6][:-1]
 at_list = atom_list(filename)
-if(sys.argv[3]=="mars"):
+if(sys.argv[2]=="mars"):
 	pseudo_dir="'/ORTAK/progs/QuantumESPRESSO/pseudo',\n"
-if(sys.argv[3]=="atom"):
+if(sys.argv[2]=="atom"):
 	pseudo_dir="'/opt/pseudo_test/SSSP_acc_PBE',\n"
-if(sys.argv[3]=="uhem"):
+if(sys.argv[2]=="uhem"):
 	pseudo_dir="'/okyanus/users/eaybey/pseudo_test/SSSP_acc_PBE',\n"
 foldername = filename.split(".")[0]+"_esp"
 os.system("mkdir -p "+foldername)
