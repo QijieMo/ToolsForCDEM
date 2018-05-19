@@ -1,7 +1,6 @@
 #!/usr/bin/env python2
 import sys
 import numpy as np
-import math
 
 if len(sys.argv)<2 or len(sys.argv)>2:
     print "Arguments are wrong.\n" \
@@ -21,4 +20,4 @@ for line in cell_file_raw_data:
 	cell_array.append(line)
 
 volume = np.dot(np.cross(cell_array[0],cell_array[1]),cell_array[2])
-print math.fabs(volume)
+print volume
