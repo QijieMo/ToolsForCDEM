@@ -55,7 +55,45 @@ def generate_cellfile(xyzfolder_path,name_without_xyz):
 		)
 	cell_file.close()
 
+def generate_cellfile_fcaspesa(xyzfolder_path,name_without_xyz):
+	exact_path=xyzfolder_path+"/"+name_without_xyz+".xyz"
+	file = open(exact_path,"r")
+	cell_raw = file.readline()
+	cell_raw = file.readline()
+	cell_processed = cell_raw.split()
+	cell1 = cell_processed[4]
+	cell2 = cell_processed[5]
+	cell3 = cell_processed[6]
+	cell4 = cell_processed[7]
+	cell5 = cell_processed[8]
+	cell6 = cell_processed[9]
+	cell7 = cell_processed[10]
+	cell8 = cell_processed[11]
+	cell9 = cell_processed[12]
+	file.close()
+	cell_file = open(xyzfolder_path+"/cell_file","w")
+	cell_file.write(
+		str(cell1)+"\t"+
+		str(cell2)+"\t"+
+		str(cell3)+"\n"+
+		str(cell4)+"\t"+
+		str(cell5)+"\t"+
+		str(cell6)+"\n"+
+		str(cell7)+"\t"+
+		str(cell8)+"\t"+
+		str(cell9)
+		)
+	cell_file.close()
+
 def get_energy(xyzfolder_path,name_without_xyz,energy_dict):
+	exact_path=xyzfolder_path+"/"+name_without_xyz+".xyz"
+	file = open(exact_path,"r")
+	energy_raw = file.readline()
+	energy_raw = file.readline()
+	energy_splitted = energy_raw.split()
+	energy_dict[exact_path] = energy_splitted[1]
+
+def get_energy_fcaspesa(xyzfolder_path,name_without_xyz,energy_dict):
 	exact_path=xyzfolder_path+"/"+name_without_xyz+".xyz"
 	file = open(exact_path,"r")
 	energy_raw = file.readline()
