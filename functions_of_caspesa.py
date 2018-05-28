@@ -1,19 +1,26 @@
+#!/usr/bin/env python2
 from subprocess import PIPE, Popen
 import os
+import sys
 
 def cmdline(command):
     process = Popen(
         args=command,
+        stdin=PIPE,
         stdout=PIPE,
-        shell=True
+        stderr=PIPE,
+        shell=True,
+        close_fds=True,
+        bufsize=-1
     )
     return process.communicate()[0]
 
 def check_analysis(Analysis_dir):
 	ls = cmdline("ls")
 	if Analysis_dir in ls:
-		print """An old analysis folder already exists
-Do you want to remove the old files and execute a new analysis(Y/N)"""
+		print """An old analysis folder already exist."""
+		print """Do you want to remove the old files and execute a new analysis(Y/N)"""
+		sys.stdin = open('/dev/tty')
 		ans = raw_input()
 		if ans=="Y" or ans=="y":
 			os.system("rm -rf "+Analysis_dir+" "+Analysis_dir+".txt")

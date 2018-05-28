@@ -59,6 +59,7 @@ for i in xrange(len(xyz_adress)):
 	os.system(copy_command)
 	os.system(copy_command_333)
 	#Generating the cell_file for xyz2cif
+#	print xyz_adress[i]
 	generate_cellfile_fcaspesa(xyzfolder_path,name_without_xyz)
 	#Getting energy
 	get_energy_fcaspesa(xyzfolder_path,name_without_xyz,energy_dict)
@@ -100,11 +101,13 @@ for i in xrange(len(energy_sorted)):
 	volume = cmdline("get_volume.py cell_file").rstrip("\n") + " Ang^3"
 	table.add_row([energy_sorted[i][0],energy_sorted[i][1],volume,str(dummy_tol),sym_res.rstrip(" ")])
 	os.chdir(base_directory)
-	
+
 print(table)
+
 Analysis_file = open(Analysis_dir+".txt","w")
 Analysis_file.write(str(table)+"\n")
 Analysis_file.close()
+#os.system("cat "+Analysis_dir+".txt")
 for i in xrange(len(energy_sorted)):
 	os.system("cat "+energy_sorted[i][0]+" >> "+Analysis_dir+"/all.xyz")
 	RepAdress = energy_sorted[i][0].split("/")
