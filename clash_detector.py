@@ -19,7 +19,7 @@ PLEASE PLEASE!!!! REMOVE ANALYSIS FOLDER FIRST!!(of course if it exist)"""
 
 clash_file = open("clash_result.txt","w")
 
-xyz_list = cmdline("find . -iname '*.xyz'").split("\n")[:-1]
+xyz_list = cmdline("find . -iname '*.xyz' ! -name 'all*.xyz'").split("\n")[:-1]
 print "I found ",len(xyz_list)," xyz file here"
 print "Now i am checking them for a clash. It may take time.."
 
