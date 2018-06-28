@@ -14,11 +14,12 @@ else:
 
 print """This script finds all xyz files beneath this
 folder and inspect them for possible atomic clash
-RESULTS CAN BE FOUND IN THE clash_result.txt FILE"""
+RESULTS CAN BE FOUND IN THE clash_result.txt FILE
+PLEASE PLEASE!!!! REMOVE ANALYSIS FOLDER FIRST!!(of course if it exist)"""
 
 clash_file = open("clash_result.txt","w")
 
-xyz_list = cmdline("find . -iname *.xyz").split("\n")[:-1]
+xyz_list = cmdline("find . -iname '*.xyz'").split("\n")[:-1]
 print "I found ",len(xyz_list)," xyz file here"
 print "Now i am checking them for a clash. It may take time.."
 
