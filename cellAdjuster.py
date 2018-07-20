@@ -67,3 +67,5 @@ pp(cell)
 cell_ad = open("cell_file","w")
 for i in range(3):
 	cell_ad.write(str(cell[i][0])+"\t"+str(cell[i][1])+"\t"+str(cell[i][2])+"\n")
+print "You can visualize the result with the command below:"
+print "xyz_visualizer.py "+new_name+" cell_file"

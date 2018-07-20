@@ -1,7 +1,8 @@
+#!/usr/bin/env python2
 import pybel
 from math import sqrt,sin,cos,pi,acos,floor,ceil
 import numpy
-mol=pybel.readfile("cif","Experimental.cif").next()
+mol=pybel.readfile("cif","paperstructure.cif").next()
 uc = mol.unitcell
 print uc
 uc.FillUnitCell(mol.OBMol)
