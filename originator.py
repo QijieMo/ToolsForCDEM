@@ -13,8 +13,9 @@ if len(sys.argv)<2 or len(sys.argv)>2:
 else:
     xyz_name = sys.argv[1]
 
-xyz_file = open(xyz_name,"r").readlines()[2:]
-
+xyz_file = open(xyz_name,"r").readlines()
+at_number = int(xyz_file[0].rstrip(" ").lstrip(" "))
+xyz_file = xyz_file[2:]
 a = np.zeros(len(xyz_file)*3).reshape(len(xyz_file),3)
 atom_names = []
 
@@ -28,14 +29,17 @@ for i in range(len(xyz_file)):
 
 ref_at = [0.,0.,0.]
 ref_at[:] = a[0]
-print ref_at
 
 for i in range(len(a)):
 	a[i] = a[i] - ref_at
-	print ref_at
 
-print a
 #for i in range(len(a)):
 #  print a[i][0],"\t",a[i][1],"\t",a[i][2]
 
-print atom_names
+print "Writing new xyz.."
+print "New xyz name is:",xyz_name.rstrip(".xyz")+"_originated.xyz"
+new_xyz = open(xyz_name.rstrip(".xyz")+"_originated.xyz","w")
+new_xyz.write(str(at_number)+"\n\n")
+for i in range(len(a)):
+	new_xyz.write(atom_names[i]+"\t"+str(round(a[i][0],4))+"\t"+str(round(a[i][1],4))+"\t"+str(round(a[i][2],4))+"\n")
+
