@@ -46,8 +46,8 @@ print "Adjusted coordinates are:"
 for i in range(len(x_vals)):
 	print at_names[i],x_vals[i],y_vals[i],z_vals[i]
 print "Writing to xyz.."
-print "Xyz name is: "+ XyzFileName.rstrip(".xyz")+"_new.xyz"
-new_name = XyzFileName.rstrip(".xyz")+"_new.xyz"
+print "Xyz name is: "+ XyzFileName.rstrip(".xyz")+"_originated.xyz"
+new_name = XyzFileName.rstrip(".xyz")+"_originated.xyz"
 new_file = open(new_name,"w")
 new_file.write(str(XyzAtnum)+"\n\n")
 for i in range(len(x_vals)):
