@@ -7,7 +7,7 @@ from pprint import pprint as pp
 #Taking arguments with error control
 if len(sys.argv)<3 or len(sys.argv)>3:
     print "Arguments are wrong.\n" \
-          "Correct usage: cellAdjuster.py xyz_file space_ang" \
+          "Correct usage: cellAdjuster.py xyz_file space_ang\n" \
           "space_ang is how much space you need for corner atoms from the cell walls"
     exit(0)
 else:
