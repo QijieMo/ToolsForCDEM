@@ -68,15 +68,15 @@ def generate_cellfile_fcaspesa(xyzfolder_path,name_without_xyz):
 	cell_raw = file.readline()
 	cell_raw = file.readline()
 	cell_processed = cell_raw.split()
-	cell1 = cell_processed[4]
-	cell2 = cell_processed[5]
-	cell3 = cell_processed[6]
-	cell4 = cell_processed[7]
-	cell5 = cell_processed[8]
-	cell6 = cell_processed[9]
-	cell7 = cell_processed[10]
-	cell8 = cell_processed[11]
-	cell9 = cell_processed[12]
+	cell1 = cell_processed[-9]
+	cell2 = cell_processed[-8]
+	cell3 = cell_processed[-7]
+	cell4 = cell_processed[-6]
+	cell5 = cell_processed[-5]
+	cell6 = cell_processed[-4]
+	cell7 = cell_processed[-3]
+	cell8 = cell_processed[-2]
+	cell9 = cell_processed[-1]
 	file.close()
 	cell_file = open(xyzfolder_path+"/cell_file","w")
 	cell_file.write(
@@ -106,7 +106,10 @@ def get_energy_fcaspesa(xyzfolder_path,name_without_xyz,energy_dict):
 	energy_raw = file.readline()
 	energy_raw = file.readline()
 	energy_splitted = energy_raw.split()
-	energy_dict[exact_path] = energy_splitted[1]
+	if energy_splitted[1] == "Cell":
+		energy_dict[exact_path] = energy_splitted[0].split("=")[-1]
+	else:
+		energy_dict[exact_path] = energy_splitted[1]
 
 def check_analysis_qe(Analysis_dir):
 	directories = cmdline("find . -name "+Analysis_dir).split("\n")
