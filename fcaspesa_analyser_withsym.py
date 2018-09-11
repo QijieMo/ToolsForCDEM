@@ -93,9 +93,12 @@ for i in xrange(len(energy_sorted)):
 		sym_res = cmdline("xyz2cif.py "+xyz_file_name+".xyz cell_file "+sym_tol+" "
 			+xyz_file_name+".cif").rstrip("\n")
 		while sym_res[:5] != "Space":
-			dummy_tol = float(dummy_tol) - 0.1
+			print "\t Tolerance Decreasing to:",float(dummy_tol)*0.9
+			dummy_tol = float(dummy_tol)*0.9
 			sym_res = cmdline("xyz2cif.py "+xyz_file_name+".xyz cell_file "+str(dummy_tol)+" "
 				+xyz_file_name+".cif").rstrip("\n")
+			if(float(dummy_tol)<0.1):
+				sym_res = "Space must be planar or problematic, sym wont work"
 	else:
 		sym_res = "E=0,wont look for sym"
 	volume = cmdline("get_volume.py cell_file").rstrip("\n") + " Ang^3"
