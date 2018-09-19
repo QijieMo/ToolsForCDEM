@@ -66,8 +66,8 @@ for i in xrange(len(qe_outandver_dict)):
 		kpoint = cmdline("grep \"number of k points\" "+address).split("\n")[0].split()[4]
 		address_vs_kpoint[address] = kpoint
 		#Finding atom count and different atom types
-		how_many = cmdline("head -100 "+address+" |grep -i \"number of atoms\"").rstrip("\n").split("=")[1]
-		how_many_dif = cmdline("head -100 "+address+" |grep -i \"number of atomic types\"").rstrip("\n").split("=")[1]
+		how_many = cmdline("head -300 "+address+" |grep -i \"number of atoms\"").rstrip("\n").split("=")[1]
+		how_many_dif = cmdline("head -300 "+address+" |grep -i \"number of atomic types\"").rstrip("\n").split("=")[1]
 		how_many_diffrent_atom[address] = how_many_dif.lstrip(" ")
 		how_many_atom[address]  = how_many.lstrip(" ")
 		#Finding if the job finished or not

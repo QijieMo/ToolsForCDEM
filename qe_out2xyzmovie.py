@@ -11,7 +11,7 @@ else:
 	out_name = sys.argv[1]
 	xyz_name = sys.argv[2]
 
-how_many = cmdline("head -100 "+out_name+" |grep -i \"number of atoms\"").rstrip("\n").split("=")[1].lstrip(" ")
+how_many = cmdline("head -300 "+out_name+" |grep -i \"number of atoms\"").rstrip("\n").split("=")[1].lstrip(" ")
 print "Atom Count in a cell: "+how_many
 coord_line_numbers = cmdline("grep -nr -i \"ATOMIC_POSITIONS\" "+out_name).split("\n")
 coord_line_numbers.remove('')
