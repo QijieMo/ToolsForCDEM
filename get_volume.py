@@ -20,4 +20,4 @@ for line in cell_file_raw_data:
 	cell_array.append(line)
 cell_file_raw.close()
 volume = np.dot(np.cross(cell_array[0],cell_array[1]),cell_array[2])
-print volume
+print np.fabs(volume)
