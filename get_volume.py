@@ -19,10 +19,5 @@ for line in cell_file_raw_data:
 	line[2] = float(line[2])
 	cell_array.append(line)
 cell_file_raw.close()
-<<<<<<< HEAD
 volume = np.fabs(np.dot(np.cross(cell_array[0],cell_array[1]),cell_array[2]))
 print volume
-=======
-volume = np.dot(np.cross(cell_array[0],cell_array[1]),cell_array[2])
-print np.fabs(volume)
->>>>>>> eb08b27af2cd1cf42334ccb9ff7c50f16a42a2f0
