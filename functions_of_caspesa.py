@@ -10,8 +10,8 @@ def cmdline(command):
         stdout=PIPE,
         stderr=PIPE,
         shell=True,
-        close_fds=True,
-        bufsize=-1
+#        close_fds=True,
+#        bufsize=-1
     )
     return process.communicate()[0]
 
