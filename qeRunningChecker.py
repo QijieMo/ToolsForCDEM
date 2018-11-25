@@ -19,20 +19,27 @@ runningDirs = cmdline("squeue -u eaybey --states=RUNNING --format \"%Z\" | awk '
 
 addressVsLastEnergy = {}
 addressVsOneBeforeLastEnergy = {}
+addressVsHowMany = {}
 rawData = []
+
 for directory in runningDirs:
-  rawData.append(cmdline("grep -i 'enthalpy new' "+directory+"/*.out |tail -n2").split("\n")[:-1])
+  isQe = cmdline("head "+directory+"/*.out |grep 'PWSCF'").lstrip(" ").rstrip("\n")
+  if 'pwscf' in isQe.lower():
+    rawData.append(cmdline("grep -i 'enthalpy new' "+directory+"/*.out |tail -n2").split("\n")[:-1])
 
 for i in range(len(rawData)):
   address = rawData[i][0].split()[0][:-1]
   lastEnergy = rawData[i][1].split()[-2]
   oneBeforeLastEnergy = rawData[i][0].split()[-2]
+  howMany = cmdline("grep -i 'enthalpy new' "+address+" |wc -l").rstrip("\n")
   addressVsLastEnergy[address] = lastEnergy
   addressVsOneBeforeLastEnergy[address] = oneBeforeLastEnergy
+  addressVsHowMany[address] = howMany
 
 table = PrettyTable([
 "Address",
 "Energy",
+"HowManyIteration",
 "LastDiff"
 ])
 
@@ -40,6 +47,7 @@ for i in range(len(addressVsLastEnergy)):
   address = addressVsLastEnergy.keys()[i]
   lastEn = addressVsLastEnergy[address]
   oneBeforeLast = addressVsOneBeforeLastEnergy[address]
-  table.add_row([address,lastEn,format((float(lastEn) - float(oneBeforeLast)),'.8f')])
+  howManyIt = addressVsHowMany[address]
+  table.add_row([address,lastEn,howManyIt,format((float(lastEn) - float(oneBeforeLast)),'.8f')])
 
-print table
+print table.get_string(sortby="Energy", reversesort=True)
