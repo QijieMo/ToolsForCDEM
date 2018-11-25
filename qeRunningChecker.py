@@ -25,7 +25,11 @@ rawData = []
 for directory in runningDirs:
   isQe = cmdline("head "+directory+"/*.out |grep 'PWSCF'").lstrip(" ").rstrip("\n")
   if 'pwscf' in isQe.lower():
-    rawData.append(cmdline("grep -i 'enthalpy new' "+directory+"/*.out |tail -n2").split("\n")[:-1])
+    isNew = cmdline("grep -i 'enthalpy new' "+directory+"/*.out |wc -l").rstrip("\n")
+    if(int(isNew)>=2):
+      rawData.append(cmdline("grep -i 'enthalpy new' "+directory+"/*.out |tail -n2").split("\n")[:-1])
+    else:
+      rawData.append(str(directory + "/*.out: JustStarted 0 JustStarted\n"+directory + "/*.out: JustStarted 0 JustStarted\n").split("\n"))
 
 for i in range(len(rawData)):
   address = rawData[i][0].split()[0][:-1]
