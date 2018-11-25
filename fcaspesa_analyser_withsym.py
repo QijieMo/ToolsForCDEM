@@ -97,7 +97,7 @@ for i in xrange(len(energy_sorted)):
 			dummy_tol = float(dummy_tol)*0.9
 			sym_res = cmdline("xyz2cif.py "+xyz_file_name+".xyz cell_file "+str(dummy_tol)+" "
 				+xyz_file_name+".cif").rstrip("\n")
-			if(float(dummy_tol)<0.1):
+			if(float(dummy_tol)<0.05):
 				sym_res = "Space must be planar or problematic, sym wont work"
 	else:
 		sym_res = "E=0,wont look for sym"
