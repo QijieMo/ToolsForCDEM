@@ -5,6 +5,7 @@ from prettytable import PrettyTable
 import sys
 from functions_of_caspesa import (cmdline,check_analysis,
 generate_cellfile_fcaspesa,get_energy_fcaspesa)
+import pmg_xyz2cifFunc
 
 if len(sys.argv)<2 or len(sys.argv)>2:
     print "Arguments are wrong.\n" \
@@ -74,10 +75,8 @@ table = PrettyTable([
 "Symmetry"
 ])
 #Finding symmetries and creating cif files
-import time
 base_directory = cmdline("pwd").rstrip("\n")
 for i in xrange(len(energy_sorted)):
-	start = time.time()
 	print("Processing "+str(i)+" of "+ str(len(energy_sorted))
 		+" name-> "+ energy_sorted[i][0])
 	dummy_tol = sym_tol
@@ -92,34 +91,29 @@ for i in xrange(len(energy_sorted)):
 	#now i can change working directory and execute the xyz2cif
 	os.chdir(work_path_processed)
 	if(float(energy_sorted[i][1])!=0.):
-		sym_res = cmdline("pmg_xyz2cif.py "+xyz_file_name+".xyz cell_file "+sym_tol+" "
-			+xyz_file_name+".cif").rstrip("\n")
-		while sym_res[:5] != "Space":
-			print "\t Tolerance Decreasing to:",float(dummy_tol)*0.9
-			dummy_tol = float(dummy_tol)*0.9
-			sym_res = cmdline("pmg_xyz2cif.py "+xyz_file_name+".xyz cell_file "+str(dummy_tol)+" "
-				+xyz_file_name+".cif").rstrip("\n")
-			if(float(dummy_tol)<0.05):
-				sym_res = "Space must be planar or problematic, sym wont work"
-	else:
-		sym_res = "E=0,wont look for sym"
-	volume = cmdline("get_volume.py cell_file").rstrip("\n") + " Ang^3"
-	print sym_res,(time.time() - start)
+		sym_res,volume = pmg_xyz2cifFunc.pmg_xyz2cifFunc(xyz_file_name+".xyz","cell_file",float(sym_tol),xyz_file_name+".cif")
+#		while sym_res[:5] != "Space":
+#			print "\t Tolerance Decreasing to:",float(dummy_tol)*0.9
+#			dummy_tol = float(dummy_tol)*0.9
+#			sym_res = cmdline("pmg_xyz2cif.py "+xyz_file_name+".xyz cell_file "+str(dummy_tol)+" "
+#				+xyz_file_name+".cif").rstrip("\n")
+#			if(float(dummy_tol)<0.05):
+#				sym_res = "Space must be planar or problematic, sym wont work"
+#	else:
+#		sym_res = "E=0,wont look for sym"
 	table.add_row([energy_sorted[i][0],float(energy_sorted[i][1]),volume,str(dummy_tol),sym_res.rstrip(" ")])
 	os.chdir(base_directory)
 
-#table.sortby = "Energy"
 print table
-
 Analysis_file = open(Analysis_dir+".txt","w")
-Analysis_file.write(str(table)+"\n")
+Analysis_file.write(table.get_string()+"\n")
 Analysis_file.close()
 #os.system("cat "+Analysis_dir+".txt")
-for i in xrange(len(energy_sorted)):
-	os.system("cat "+energy_sorted[i][0]+" >> "+Analysis_dir+"/all.xyz")
-	RepAdress = energy_sorted[i][0].split("/")
-	RepAdressFull = ""
-	for j in range(len(RepAdress)-1):
-		RepAdressFull += RepAdress[j] + "/"
-	RepAdressFull += "r333_"+RepAdress[-1]
-	os.system("cat "+RepAdressFull+" >> "+Analysis_dir+"/all_333.xyz")
+#for i in xrange(len(energy_sorted)):
+#	os.system("cat "+energy_sorted[i][0]+" >> "+Analysis_dir+"/all.xyz")
+#	RepAdress = energy_sorted[i][0].split("/")
+#	RepAdressFull = ""
+#	for j in range(len(RepAdress)-1):
+#		RepAdressFull += RepAdress[j] + "/"
+#	RepAdressFull += "r333_"+RepAdress[-1]
+#	os.system("cat "+RepAdressFull+" >> "+Analysis_dir+"/all_333.xyz")

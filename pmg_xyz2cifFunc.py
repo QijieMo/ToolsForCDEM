@@ -1,24 +1,6 @@
-#!/usr/bin/env python2
-"""
-converts xyz files to cif
-written by Samet Demir
-usage: pmg_xyz2cif.py xyz_file cell_file sym_tol ang_tol cif_name
-
-cell_file data must be angstrom
-"""
-import subprocess
-from subprocess import PIPE, Popen
-import sys
 import pymatgen as mg
 from pymatgen.io.cif import CifWriter
-
-def cmdline(command):
-    process = Popen(
-        args=command,
-        stdout=PIPE,
-        shell=True
-    )
-    return process.communicate()[0]
+from pymatgen.symmetry.analyzer import SpacegroupAnalyzer
 
 def read_xyz(filename):
     xyz_file = open(filename,"r")
@@ -63,26 +45,15 @@ def at_types_fromnamedata(at_namedata):
     return at_types
 
 
-#Taking arguments with error control
-if len(sys.argv)<5 or len(sys.argv)>5:
-    print "Arguments are wrong.\n" \
-          "Correct usage: pmg_xyz2cif.py xyz_file cell_file sym_tol ang_tol cif_name"
-    exit(0)
-else:
-    xyz_file_name = sys.argv[1]
-    cell_file_name = sys.argv[2]
-    sym_tol = float(sys.argv[3])
-    cif_name = sys.argv[4]
-
-xyz = read_xyz(sys.argv[1])
-cell = read_cell(sys.argv[2])
-#getting rid of scientific notation
-np.set_printoptions(suppress=True)
-#processing for conversion
-cell_processed = process_cell(cell)
-xyz_processed, at_namedata = process_xyz(xyz)
-st = mg.Structure(cell_processed,at_namedata,xyz_processed,coords_are_cartesian=True)
-cifFile = open(cif_name,"w")
-cifFile.write(str(CifWriter(st,symprec=sym_tol)))
-cifFile.close()
-print "Space"
+def pmg_xyz2cifFunc(xyzFilename,cell_file,sym_tol,cifFilename):
+  xyz = read_xyz(xyzFilename)
+  cell = read_cell(cell_file)
+  #processing for conversion
+  cell_processed = process_cell(cell)
+  xyz_processed, at_namedata = process_xyz(xyz)
+  st = mg.Structure(cell_processed,at_namedata,xyz_processed,coords_are_cartesian=True)
+  finder = SpacegroupAnalyzer(st,symprec=sym_tol)
+  returner = "Space Group "+ str(finder.get_space_group_number()) + "  "+finder.get_space_group_symbol()
+  cifFile = CifWriter(st,symprec=sym_tol)
+  cifFile.write_file(cifFilename)
+  return returner,st.volume
