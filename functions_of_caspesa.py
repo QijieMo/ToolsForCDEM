@@ -8,7 +8,7 @@ def cmdline(command):
         args=command,
         stdin=PIPE,
         stdout=PIPE,
-        stderr=PIPE,
+#        stderr=PIPE,
         shell=True,
 #        close_fds=True,
 #        bufsize=-1
@@ -107,9 +107,9 @@ def get_energy_fcaspesa(xyzfolder_path,name_without_xyz,energy_dict):
 	energy_raw = file.readline()
 	energy_splitted = energy_raw.split()
 	if energy_splitted[1] == "Cell":
-		energy_dict[exact_path] = energy_splitted[0].split("=")[-1]
+		energy_dict[exact_path] = float(energy_splitted[0].split("=")[-1])
 	else:
-		energy_dict[exact_path] = energy_splitted[1]
+		energy_dict[exact_path] = float(energy_splitted[1])
 
 def check_analysis_qe(Analysis_dir):
 	directories = cmdline("find . -name "+Analysis_dir).split("\n")
