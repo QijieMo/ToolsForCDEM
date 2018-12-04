@@ -8,7 +8,7 @@ def cmdline(command):
         args=command,
         stdin=PIPE,
         stdout=PIPE,
-#        stderr=PIPE,
+        stderr=PIPE,
         shell=True,
 #        close_fds=True,
 #        bufsize=-1
