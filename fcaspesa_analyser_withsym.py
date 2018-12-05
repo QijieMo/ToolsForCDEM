@@ -5,6 +5,7 @@ from prettytable import PrettyTable
 import sys
 from functions_of_caspesa import (cmdline,check_analysis,
 generate_cellfile_fcaspesa,get_energy_fcaspesa)
+import xyz2cifFunc
 
 if len(sys.argv)<2 or len(sys.argv)>2:
     print "Arguments are wrong.\n" \
@@ -90,19 +91,16 @@ for i in xrange(len(energy_sorted)):
 	#now i can change working directory and execute the xyz2cif
 	os.chdir(work_path_processed)
 	if(float(energy_sorted[i][1])!=0.):
-		sym_res = cmdline("xyz2cif.py "+xyz_file_name+".xyz cell_file "+sym_tol+" "
-			+xyz_file_name+".cif").rstrip("\n")
+		sym_res,volume = xyz2cifFunc.xyz2cifFunc(xyz_file_name+".xyz","cell_file",float(sym_tol),xyz_file_name+".cif")
 		while sym_res[:5] != "Space":
 			print "\t Tolerance Decreasing to:",float(dummy_tol)*0.9
 			dummy_tol = float(dummy_tol)*0.9
-			sym_res = cmdline("xyz2cif.py "+xyz_file_name+".xyz cell_file "+str(dummy_tol)+" "
-				+xyz_file_name+".cif").rstrip("\n")
+			sym_res,volume = xyz2cifFunc.xyz2cifFunc(xyz_file_name+".xyz","cell_file",str(dummy_tol),xyz_file_name+".cif")
 			if(float(dummy_tol)<0.05):
 				sym_res = "Space must be planar or problematic, sym wont work"
 	else:
 		sym_res = "E=0,wont look for sym"
-	volume = str("Wont look")
-	table.add_row([energy_sorted[i][0],float(energy_sorted[i][1]),volume,str(dummy_tol),sym_res.rstrip(" ")])
+	table.add_row([energy_sorted[i][0],float(energy_sorted[i][1]),volume,str(dummy_tol),sym_res.rstrip("\n").rstrip(" ")])
 	os.chdir(base_directory)
 print table
 
