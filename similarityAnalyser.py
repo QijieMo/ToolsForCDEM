@@ -38,6 +38,8 @@ def findMatch(cifFiles,matchTable):
         reporter(i,matchTable[i,:])
       else:
       	print "\n",i,"numarali",cifFiles[i],"adresli yapinin BENZERI YOK"
+      stDiff.append(i)
+      unique_list.append(stDiff)
       diff = np.append(diff,stDiff)
       stDiff = []
 
@@ -54,10 +56,14 @@ lengthTol = 0.2 # default 0.2
 siteTol = 0.3 # default 0.3
 angleTol = 5 # default 5 degree
 # finding all cif files under this folder
+unique_list = []
 cifFiles = cmdline("find . -iname *.cif").split("\n")[:-1]
 matchTable = np.zeros([len(cifFiles),len(cifFiles)])
 findMatch(cifFiles,matchTable)
+print "Benzersiz yapilar:"
+print unique_list
 
 with open('matchAndAddress.pkl', 'wb') as f:
   pickle.dump(matchTable, f)
   pickle.dump(cifFiles, f)
+  pickle.dump(unique_list,f)
