@@ -1,3 +1,3 @@
 # ToolsForCDEM
 
-This is a toolbox of caspesa and quantum espresso analysers. It uses ase, findsym and prettytable
+This is toolbox of caspesa. It includes quantum espresso analysers. It uses ase, findsym and prettytable. It is OUTDATED
